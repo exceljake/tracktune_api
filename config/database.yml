@@ -1,0 +1,20 @@
+default: &default
+  host: <%= ENV.fetch("DATABASE_HOST") { 'localhost' } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  port: 5432
+  adapter: postgresql
+  # username:  <%= ENV.fetch("DATABASE_USERNAME") { "psql_eaquino" } %>
+  # password:  <%= ENV.fetch("DATABASE_PASSWORD") { "psql_eaquino_pass" } %>
+  username:  <%= ENV.fetch("DATABASE_USERNAME") { "#{Rails.application.credentials.psql[:username]}" } %>
+  password:  <%= ENV.fetch("DATABASE_PASSWORD") { "#{Rails.application.credentials.psql[:password]}" } %>
+development:
+  <<: *default
+  database: tracktune_api_development
+
+test:
+  <<: *default
+  database: tracktune_api_test
+
+production:
+  <<: *default
+  database: tracktune_api_production
