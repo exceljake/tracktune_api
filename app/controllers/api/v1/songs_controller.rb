@@ -1,11 +1,12 @@
 module Api 
   module V1
     class SongsController < ApplicationController
+      before_action :authorize_access_request!
       before_action :set_song, only: %i[ show update destroy ]
 
       # GET /songs
       def index
-        @songs = Song.all
+        @songs = current_user.songs.all
 
         render json: @songs
       end
@@ -17,7 +18,7 @@ module Api
 
       # POST /songs
       def create
-        @song = Song.new(song_params)
+        @song = current_user.songs.build(song_params)
 
         if @song.save
           render json: @song, status: :created, location: @song
@@ -43,12 +44,12 @@ module Api
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_song
-          @song = Song.find(params[:id])
+          @song = current_user.songs.find(params[:id])
         end
 
         # Only allow a list of trusted parameters through.
         def song_params
-          params.require(:song).permit(:title, :year_released, :code, :singer_id, :user_id)
+          params.require(:song).permit(:title, :year_released, :code, :singer_id)
         end
       end
     end

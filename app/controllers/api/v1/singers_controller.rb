@@ -1,6 +1,7 @@
 module Api 
   module V1
     class SingersController < ApplicationController
+      before_action :authorize_access_request!, except: [:show, :index]
       before_action :set_singer, only: %i[ show update destroy ]
 
   # GET /singers
@@ -48,7 +49,7 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def singer_params
-          params.require(:singer).permit(:name, :user_id)
+          params.require(:singer).permit(:name)
         end
     end
   end

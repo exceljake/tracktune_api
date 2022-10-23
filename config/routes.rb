@@ -12,4 +12,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  post "refresh", controller: :refresh, action: :create
+  post "signup", controller: :signup, action: :create 
+  post "signin", controller: :signin, action: :create
+  delete "signin", controller: :signin, action: :destroy
 end

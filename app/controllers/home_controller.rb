@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
     def index 
-        render :json => {:home => "You've reached home page"}
+        @singers = Singer.all 
+        render json: @singers
     end
 end
